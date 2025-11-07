@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="description" content="فرم پذیرش خودرو - خدمات فنی تخصصی خودرو رامین">
+    <title>فرم پذیرش خودرو - رامین</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%DA%A9%D8%A7%D8%B1%D8%AE%D8%A7%D9%86%D9%87%20%D8%AE%D9%88%D8%AF%D8%B1%D9%88%20%D8%B1%D8%A7%D9%85%DB%8C%D9%86%22%2C%22short_name%22%3A%22%D9%81%D8%B1%D9%85%20%D8%AE%D9%88%D8%AF%D8%B1%D9%88%22%2C%22description%22%3A%22%D8%B3%DB%8C%D8%B3%D8%AA%D9%85%20%D9%BE%D8%B0%DB%8C%D8%B1%D8%B4%20%D8%AE%D9%88%D8%AF%D8%B1%D9%88%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%232c3e50%22%2C%22theme_color%22%3A%22%232c3e50%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20width%3D'100'%20height%3D'100'%20fill%3D'%232c3e50'%2F%3E%3Ctext%20x%3D'50'%20y%3D'70'%20font-size%3D'60'%20text-anchor%3D'middle'%20fill%3D'white'%3E%F0%9F%9A%97%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+    
+    <style>
+        /* استایل نصب PWA */
+        .install-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            display: none;
+        }
+        
+        .install-btn.show {
+            display: block;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* استایل‌های اصلی فرم */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 18px;
+            color: #3498db;
+        }
+        .form-section {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-title {
+            background: #3498db;
+            color: white;
+            padding: 10px 15px;
+            margin: -20px -20px 20px -20px;
+            font-size: 18px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        input.error {
+            border-color: #e74c3c;
+            background-color: #fee;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+        .fuel-gauge {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+        }
+        .fuel-level {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
+            width: 50%;
+            transition: width 0.3s;
+        }
+        .signature-container {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #6c757d;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: white;
+            position: relative;
+            touch-action: none;
+        }
+        #signatureCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .submit-btn:hover {
+            background: #219a52;
+        }
+        .download-btn {
+            background: #3498db;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .download-btn:hover {
+            background: #2980b9;
+        }
+        .auto-filled {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            font-weight: bold;
+        }
+        .car-condition-text {
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 120px;
+        }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+    
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- دکمه نصب PWA -->
+    <button class="install-btn" id="installBtn">📲 نصب اپلیکیشن</button>
+
+    <div class="container" id="formContainer">
+        <div class="header">
+            <h1>فرم پذیرش خودرو</h1>
+            <h2>خدمات فنی تخصصی خودرو رامین</h2>
+        </div>
+
+        <form id="carForm">
+            <!-- اطلاعات پذیرنده -->
+            <div class="form-section">
+                <div class="section-title">📋 اطلاعات پذیرنده</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>نام پذیرنده:</label>
+                        <div class="auto-filled" id="acceptorNameDisplay">رامین ملاحسینی</div>
+                    </div>
+                    <div class="form-group">
+                        <label>تلفن:</label>
+                        <div class="auto-filled" id="acceptorPhoneDisplay">09136108625</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>آدرس:</label>
+                    <div class="auto-filled" id="acceptorAddressDisplay">بلوار امام خمینی، نرسیده به دستغیب، جنب کابینت سازی</div>
+                </div>
+            </div>
+
+            <!-- اطلاعات پذیرش -->
+            <div class="form-section">
+                <div class="section-title">📅 اطلاعات پذیرش</div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>شماره قبض:</label>
+                        <div class="auto-filled" id="billNumberDisplay">در حال تولید...</div>
+                    </div>
+                    <div class="form-group">
+                        <label>تاریخ پذیرش:</label>
+                        <div class="auto-filled" id="receptionDateDisplay">در حال بارگذاری...</div>
+                    </div>
+                    <div class="form-group">
+                        <label>زمان تقریبی تحویل:</label>
+                        <input type="text" id="deliveryDate" placeholder="1403/05/15" required pattern="\d{4}/\d{2}/\d{2}">
+                        <div class="error-message" id="deliveryDateError">فرمت تاریخ باید به صورت 1403/05/15 باشد</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- اطلاعات مشتری -->
+            <div class="form-section">
+                <div class="section-title">👤 اطلاعات مشتری</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>نام مشتری:</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>شماره تماس مشتری:</label>
+                        <input type="tel" id="customerPhone" required pattern="09\d{9}" maxlength="11">
+                        <div class="error-message" id="phoneError">شماره تماس باید 11 رقمی و با 09 شروع شود</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- اطلاعات خودرو -->
+            <div class="form-section">
+                <div class="section-title">🚗 اطلاعات خودرو</div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>نام خودرو:</label>
+                        <input type="text" id="carName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>پلاک:</label>
+                        <input type="text" id="carPlate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>کیلومتر فعلی:</label>
+                        <input type="number" id="currentKm" required>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>وضعیت خودرو:</label>
+                        <select id="carCondition" required>
+                            <option value="">انتخاب کنید</option>
+                            <option value="off">خودرو خاموش است</option>
+                            <option value="on">خودرو روشن است</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>میزان سوخت:</label>
+                        <div class="fuel-gauge">
+                            <div class="fuel-level" id="fuelLevel"></div>
+                        </div>
+                        <input type="range" id="fuelInput" min="0" max="100" value="50" style="width: 100%; margin-top: 10px;">
+                        <div style="text-align: center; font-size: 14px; color: #666;" id="fuelPercentage">50%</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>لوازم همراه خودرو:</label>
+                    <textarea id="accessories" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>لوازم ناموجود:</label>
+                    <textarea id="missingItems" rows="2" placeholder="لوازم و قطعاتی که در خودرو موجود نیست"></textarea>
+                </div>
+            </div>
+
+            <!-- وضعیت بدنه خودرو -->
+            <div class="form-section">
+                <div class="section-title">🗺️ ثبت وضعیت بدنه خودرو</div>
+                <div class="form-group">
+                    <label>وضعیت ظاهری و بدنه خودرو:</label>
+                    <textarea id="carBodyCondition" class="car-condition-text" rows="5" placeholder="شرح کامل وضعیت بدنه، ضربه‌ها، رنگ‌رفتگی‌ها، خط و خش‌ها و سایر موارد ظاهری...">خودرو ضربه و رنگ‌رفتگی ندارد</textarea>
+                </div>
+            </div>
+
+            <!-- مشکلات و نظرات -->
+            <div class="form-section">
+                <div class="section-title">💬 مشکلات و نظرات</div>
+                <div class="form-group">
+                    <label>مشکلات اعلام شده از طرف مشتری:</label>
+                    <textarea id="customerProblems" rows="4" placeholder="مشکلاتی که مشتری گزارش داده را وارد کنید..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>نظریه و تشخیص کارشناس:</label>
+                    <textarea id="expertOpinion" rows="4" placeholder="نظریه کارشناسی و تشخیص مشکلات..."></textarea>
+                </div>
+            </div>
+
+            <!-- امضای مشتری -->
+            <div class="form-section">
+                <div class="section-title">✍️ امضای مشتری</div>
+                <div class="form-group">
+                    <label>امضای مشتری:</label>
+                    <div class="signature-container">
+                        <canvas id="signatureCanvas"></canvas>
+                    </div>
+                    <button type="button" onclick="clearSignature()" style="padding: 8px 15px; margin: 5px; background: #95a5a6; color: white; border: none; border-radius: 5px;">پاک کردن امضا</button>
+                </div>
+            </div>
+
+            <div style="padding: 0 20px 20px;">
+                <button type="submit" class="submit-btn">💾 ذخیره اطلاعات</button>
+                <button type="button" class="download-btn" onclick="downloadFormAsImage()">📷 دانلود عکس فرم</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // مدیریت PWA
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.add('show');
+            
+            // بعد از 3 ثانیه دکمه رو مخفی کن
+            setTimeout(() => {
+                installBtn.classList.remove('show');
+            }, 10000);
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                installBtn.style.display = 'none';
+                deferredPrompt = null;
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        // بقیه کدهای JavaScript فرم اینجا قرار می‌گیره
+        // (کدهای مدیریت فرم، امضا، سوخت و ...)
+
+        // تنظیم اطلاعات ثابت پذیرنده
+        document.getElementById('acceptorNameDisplay').textContent = 'رامین ملاحسینی';
+        document.getElementById('acceptorPhoneDisplay').textContent = '09136108625';
+        document.getElementById('acceptorAddressDisplay').textContent = 'بلوار امام خمینی، نرسیده به دستغیب، جنب کابینت سازی';
+
+        // تولید شماره قبض تصادفی
+        function generateBillNumber() {
+            const timestamp = new Date().getTime().toString().slice(-6);
+            const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `${timestamp}${randomNum}`;
+        }
+
+        // تبدیل تاریخ میلادی به شمسی
+        function toPersianDate(date) {
+            const gregorian = new Date(date);
+            const persianDate = new Intl.DateTimeFormat('fa-IR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(gregorian);
+            return persianDate;
+        }
+
+        // تنظیم تاریخ و شماره قبض
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('billNumberDisplay').textContent = generateBillNumber();
+            document.getElementById('receptionDateDisplay').textContent = toPersianDate(now);
+        });
+
+        // اعتبارسنجی شماره تماس
+        const phoneInput = document.getElementById('customerPhone');
+        const phoneError = document.getElementById('phoneError');
+
+        phoneInput.addEventListener('input', function() {
+            const value = this.value;
+            if (value.length === 11 && value.startsWith('09')) {
+                this.classList.remove('error');
+                phoneError.style.display = 'none';
+            } else {
+                this.classList.add('error');
+                if (value.length > 0) {
+                    phoneError.style.display = 'block';
+                }
+            }
+        });
+
+        // اعتبارسنجی تاریخ
+        const deliveryDateInput = document.getElementById('deliveryDate');
+        const deliveryDateError = document.getElementById('deliveryDateError');
+
+        deliveryDateInput.addEventListener('input', function() {
+            const value = this.value;
+            if (value.match(/^\d{4}\/\d{2}\/\d{2}$/)) {
+                this.classList.remove('error');
+                deliveryDateError.style.display = 'none';
+            } else {
+                this.classList.add('error');
+                if (value.length > 0) {
+                    deliveryDateError.style.display = 'block';
+                }
+            }
+        });
+
+        // مدیریت میزان سوخت
+        const fuelInput = document.getElementById('fuelInput');
+        const fuelLevel = document.getElementById('fuelLevel');
+        const fuelPercentage = document.getElementById('fuelPercentage');
+        
+        fuelInput.addEventListener('input', function() {
+            const fuelValue = this.value;
+            fuelLevel.style.width = fuelValue + '%';
+            fuelPercentage.textContent = fuelValue + '%';
+        });
+
+        // مدیریت امضای مشتری
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // رویدادهای ماوس
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // رویدادهای لمسی
+        canvas.addEventListener('touchstart', handleTouchStart);
+        canvas.addEventListener('touchmove', handleTouchMove);
+        canvas.addEventListener('touchend', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            isDrawing = true;
+            [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const currentX = e.offsetX;
+            const currentY = e.offsetY;
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(currentX, currentY);
+            ctx.stroke();
+
+            [lastX, lastY] = [currentX, currentY];
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const currentX = touch.clientX - rect.left;
+            const currentY = touch.clientY - rect.top;
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(currentX, currentY);
+            ctx.stroke();
+
+            [lastX, lastY] = [currentX, currentY];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // دانلود فرم به صورت عکس
+        function downloadFormAsImage() {
+            const form = document.getElementById('carForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            html2canvas(document.getElementById('formContainer'), {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                width: document.getElementById('formContainer').scrollWidth,
+                height: document.getElementById('formContainer').scrollHeight
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `فرم_پذیرش_خودرو_${document.getElementById('billNumberDisplay').textContent}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            });
+        }
+
+        // مدیریت ارسال فرم
+        document.getElementById('carForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!this.checkValidity()) {
+                this.reportValidity();
+                return;
+            }
+            
+            alert('✅ اطلاعات با موفقیت ذخیره شد! حالا می‌توانید با دکمه "دانلود عکس فرم" از فرم عکس بگیرید.');
+        });
+    </script>
+</body>
+</html>
